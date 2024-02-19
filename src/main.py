@@ -1,10 +1,19 @@
-from Similarity import model
+from sentence_transformers import SentenceTransformer, util
 from fastapi import FastAPI
+from .input.sentences import Sentences
+from .similarity import Similarity
+import time
 
-m=model.Similarity()
-a=m.compute("The cat sits outside","A man is playing guitar")
-# print(float(a.item()))
+model=Similarity()    
 app = FastAPI ()
-@app . route ("/")
+
+@app.get("/")
 def home () :
     return {"Hello world"}
+
+@app.post("/similarity")
+def similarity(sentences:Sentences):
+    start=time.time()
+    score=model.compute(sentences.sentence1,sentences.sentence2).item()
+    compute_time=time.time()-start
+    return{"compute_time":compute_time,"score":score}
