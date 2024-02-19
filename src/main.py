@@ -17,3 +17,5 @@ def similarity(sentences:Sentences):
     score=model.compute(sentences.sentence1,sentences.sentence2).item()
     compute_time=time.time()-start
     return{"compute_time":compute_time,"score":score}
+
+ 
